@@ -15,7 +15,7 @@
             <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tu correo</label>
             <input formControlName="email" type="email" name="email" id="email"
               class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="nombre@dominio.com" required="">
+              placeholder="nombre@dominio.com" autocomplete="off">
           </div>
           @if(isRequired('email')) {
             <small class="text-red-400">Este campo es requerido</small>
@@ -31,11 +31,27 @@
               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contraseña</label>
             <input formControlName="password" type="password" name="password" id="password" placeholder="••••••••"
               class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              required="">
+              autocomplete="off">
           </div>
           @if(isRequired('password')) {
             <small class="text-red-400">Este campo es requerido</small>
           }
+
+          <div>
+            <label for="confirmPassword"
+              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Repite tu contraseña</label>
+            <input formControlName="confirmPassword" type="password" name="confirmPassword" id="confirmPassword" placeholder="••••••••"
+              class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              autocomplete="off">
+          </div>
+          @if(isRequired('confirmPassword')) {
+            <small class="text-red-400">Este campo es requerido</small>
+          }
+
+          @if(confirmedPassword()) {
+            <small class="text-red-400">La contraseña y la con confirmacion son diferentes</small>
+          }
+          
 
           <button type="submit"
             class="w-full text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Registrate</button>

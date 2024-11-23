@@ -1,12 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { hasEmailError, isRequired } from '../../utils/validators';
+import { confirmedPassword, hasEmailError, isRequired } from '../../utils/validators';
 import { AuthService } from '../../data-access/auth.service';
 import { toast } from 'ngx-sonner';
 
 interface formSignUp {
   email: FormControl<string | null>;
   password: FormControl<string | null>;
+  confirmPassword: FormControl<string | null>;
 }
 
 @Component({
@@ -21,12 +22,16 @@ export default class SignUpComponent {
   private _formBuilder = inject(FormBuilder);
   private _authService = inject(AuthService);
 
-  isRequired(field: 'email' | 'password') {
+  isRequired(field: 'email' | 'password' | 'confirmPassword') {
     return isRequired(field, this.form)
   }
 
   hasEmailError() {
     return hasEmailError(this.form);
+  }
+
+  confirmedPassword() {
+    return confirmedPassword(this.form);
   }
 
   form = this._formBuilder.group<formSignUp>({
@@ -35,6 +40,9 @@ export default class SignUpComponent {
       Validators.email
     ]),
     password: this._formBuilder.control('', [
+      Validators.required
+    ]),
+    confirmPassword: this._formBuilder.control('', [
       Validators.required
     ])
   });

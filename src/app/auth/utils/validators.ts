@@ -16,7 +16,5 @@ export const confirmedPassword = (form: FormGroup) => {
     const password = form.get('password');
     const confirmPassword = form.get('confirmPassword');
 
-    console.log('pass ', password?.value, 'confirm ', confirmPassword?.value);
-
     return password && confirmPassword && password.value !== confirmPassword.value;
 }

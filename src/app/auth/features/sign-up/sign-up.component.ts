@@ -5,6 +5,7 @@ import { AuthService } from '../../data-access/auth.service';
 import { toast } from 'ngx-sonner';
 import { Router, RouterLink } from '@angular/router';
 import { GoogleButtonComponent } from '../../ui/google-button/google-button.component';
+import { FooterComponent } from '../../../partials/footer/footer.component';
 
 export interface formSignUp {
   email: FormControl<string | null>;
@@ -15,7 +16,7 @@ export interface formSignUp {
 @Component({
   selector: 'app-sign-up',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, GoogleButtonComponent],
+  imports: [ReactiveFormsModule, RouterLink, GoogleButtonComponent, FooterComponent],
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.css'
 })

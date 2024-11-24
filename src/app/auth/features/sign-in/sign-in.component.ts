@@ -5,6 +5,7 @@ import { Router, RouterLink } from '@angular/router';
 import { confirmedPassword, hasEmailError, isRequired } from '../../utils/validators';
 import { toast } from 'ngx-sonner';
 import { GoogleButtonComponent } from '../../ui/google-button/google-button.component';
+import { FooterComponent } from '../../../partials/footer/footer.component';
 
 export interface formSignIn {
   email: FormControl<string | null>;
@@ -14,7 +15,7 @@ export interface formSignIn {
 @Component({
   selector: 'app-sign-in',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, GoogleButtonComponent],
+  imports: [ReactiveFormsModule, RouterLink, GoogleButtonComponent, FooterComponent],
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.css'
 })

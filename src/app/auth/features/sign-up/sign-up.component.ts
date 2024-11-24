@@ -1,9 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { confirmedPassword, hasEmailError, isRequired } from '../../utils/validators';
+import { confirmedPassword, hasEmailError, isRequired, validateMinLenght } from '../../utils/validators';
 import { AuthService } from '../../data-access/auth.service';
 import { toast } from 'ngx-sonner';
 import { Router, RouterLink } from '@angular/router';
+import { GoogleButtonComponent } from '../../ui/google-button/google-button.component';
 
 export interface formSignUp {
   email: FormControl<string | null>;
@@ -14,7 +15,7 @@ export interface formSignUp {
 @Component({
   selector: 'app-sign-up',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, GoogleButtonComponent],
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.css'
 })
@@ -32,6 +33,10 @@ export default class SignUpComponent {
     return hasEmailError(this.form);
   }
 
+  validateMinLenght() {
+    return validateMinLenght(this.form);
+  }
+
   confirmedPassword() {
     return confirmedPassword(this.form);
   }
@@ -42,7 +47,8 @@ export default class SignUpComponent {
       Validators.email
     ]),
     password: this._formBuilder.control('', [
-      Validators.required
+      Validators.required,
+      Validators.minLength(6)
     ]),
     confirmPassword: this._formBuilder.control('', [
       Validators.required
@@ -63,6 +69,7 @@ export default class SignUpComponent {
     }
     catch(error) {
       toast.error('Ocurrio un error');
+      console.log(error);
     }
   }
 }

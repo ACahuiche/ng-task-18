@@ -18,3 +18,9 @@ export const confirmedPassword = (form: FormGroup) => {
 
     return password && confirmPassword && password.value !== confirmPassword.value;
 }
+
+export const validateMinLenght = (form: FormGroup) => {
+    const control = form.get('password');
+
+    return control && control.touched && control.hasError('minlength');
+}

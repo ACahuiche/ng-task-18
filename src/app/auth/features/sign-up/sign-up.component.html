@@ -7,9 +7,13 @@
     <div
       class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
       <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-        <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-          Crea una cuenta
-        </h1>
+        <div class="flex flex-col items-center gap-y-4">
+          <app-google-button tituloBoton="Registrate con tu cuenta de Google"></app-google-button>
+          <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+            Crea una cuenta
+          </h1>
+        </div>
+        
         <form class="space-y-4 md:space-y-6" [formGroup]="form" (ngSubmit)="submit()">
           <div>
             <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tu correo</label>
@@ -37,6 +41,10 @@
             <small class="text-red-400">Este campo es requerido</small>
           }
 
+          @if(validateMinLenght()) {
+            <small class="text-red-400">La contraseña debe de tener minimo 6 caracteres</small>
+          }
+
           <div>
             <label for="confirmPassword"
               class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Repite tu contraseña</label>
@@ -49,7 +57,7 @@
           }
 
           @if(confirmedPassword()) {
-            <small class="text-red-400">La contraseña y la con confirmacion son diferentes</small>
+            <small class="text-red-400">La contraseña y la confirmacion son diferentes</small>
           }
           
 

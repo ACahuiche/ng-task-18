@@ -4,6 +4,7 @@ import { AuthService } from '../../data-access/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { confirmedPassword, hasEmailError, isRequired } from '../../utils/validators';
 import { toast } from 'ngx-sonner';
+import { GoogleButtonComponent } from '../../ui/google-button/google-button.component';
 
 export interface formSignIn {
   email: FormControl<string | null>;
@@ -13,7 +14,7 @@ export interface formSignIn {
 @Component({
   selector: 'app-sign-in',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, GoogleButtonComponent],
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.css'
 })
@@ -51,13 +52,13 @@ export default class SignInComponent {
       const { email, password } = this.form.value;
 
       if (email && password) {
-        //await this._authService.signup({ email, password });
-        toast.success('Usuario creado correctamente');
+        await this._authService.signIn({ email, password });
+        toast.success('Acceso correcto');
         this._router.navigate(['/tasks']);
       }
     }
     catch(error) {
-      toast.error('Ocurrio un error');
+      toast.error('Datos incorrectos');
     }
   }
 }

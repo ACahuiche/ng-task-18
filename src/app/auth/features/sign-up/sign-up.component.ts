@@ -73,4 +73,16 @@ export default class SignUpComponent {
       console.log(error);
     }
   }
+
+  async submitWithGoogle() {
+    try {
+      await this._authService.signInWithGoogle();
+      toast.success('Bienvenido de nuevo')
+      this._router.navigate(['/tasks']);
+    }
+    catch(error) {
+      toast.error('Ocurrio un error');
+      console.log(error);
+    }
+  }
 }

@@ -62,4 +62,15 @@ export default class SignInComponent {
       toast.error('Datos incorrectos');
     }
   }
+
+  async signInWithGoogle() {
+    try {
+      await this._authService.signInWithGoogle();
+      toast.success('Acceso correcto');
+      this._router.navigate(['/tasks']);
+    }
+    catch(error) {
+      toast.error('Datos incorrectos');
+    }
+  }
 }

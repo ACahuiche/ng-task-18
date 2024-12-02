@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { AuthStateService } from '../../../shared/data-access/auth-state.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-task-list',
@@ -9,4 +11,12 @@ import { Component } from '@angular/core';
 })
 export default class TaskListComponent {
 
+  private authState = inject(AuthStateService);
+  private router = inject(Router);
+
+  async logOut() {
+    this.router.navigateByUrl('/auth/sign-in');
+    await this.authState.logOutSesion();
+    
+  }
 }

@@ -69,6 +69,10 @@ export default class TaskFormComponent {
     }
   }
 
+  cancel() {
+    this._router.navigateByUrl('/tasks')
+  }
+
   async getSite(id: string){
     const siteSnapshot = await this._taskService.getSite(id);
 

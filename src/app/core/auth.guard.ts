@@ -1,4 +1,4 @@
-import { Inject, inject } from '@angular/core';
+import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthStateService } from '../shared/data-access/auth-state.service';
 import { map } from 'rxjs';
@@ -9,7 +9,6 @@ export const privateGuard: CanActivateFn = (route, state) => {
 
   return authState.authState$.pipe(
     map(state => {
-      console.log(state);
       if(!state) {
         router.navigateByUrl('/auth/sign-in');
         return false;
@@ -26,7 +25,6 @@ export const publicGuard: CanActivateFn = (route, state) => {
 
   return authState.authState$.pipe(
     map(state => {
-      console.log(state);
       if(state) {
         router.navigateByUrl('/tasks');
         return false;

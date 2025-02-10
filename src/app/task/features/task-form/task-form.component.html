@@ -1,12 +1,12 @@
 <section class="mx-auto w-full max-w-screen-sm px-4">
-    <form class="space-y-4 md:space-y-6" [formGroup]="form" (ngSubmit)="submit()">
-        <div>
-          <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Titulo</label>
-          <input formControlName="title" type="text" name="title" id="title"
-            class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder="Titulo de la pagina" autocomplete="off">
-        </div>
-        <!--@if(isRequired('email')) {
+  <form class="space-y-4 md:space-y-6" [formGroup]="form" (ngSubmit)="submit()">
+    <div>
+      <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Titulo</label>
+      <input formControlName="title" type="text" name="title" id="title"
+        class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        placeholder="Titulo de la pagina" autocomplete="off">
+    </div>
+    <!--@if(isRequired('email')) {
           <small class="text-red-400">Este campo es requerido</small>
         }
 
@@ -15,31 +15,44 @@
         }-->
 
 
-        <div>
-          <label for="urlSite"
-            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">URL</label>
-          <input formControlName="urlSite" type="url" name="urlSite" id="urlSite" placeholder="http://my-site.com"
-            class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            autocomplete="off">
-        </div>
-        <!--@if(isRequired('password')) {
+    <div>
+      <label for="urlSite" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">URL</label>
+      <input formControlName="urlSite" type="url" name="urlSite" id="urlSite" placeholder="http://my-site.com"
+        class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        autocomplete="off">
+    </div>
+    <!--@if(isRequired('password')) {
           <small class="text-red-400">Este campo es requerido</small>
         }-->
 
-        <div>
-            <label for="description"
-              class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descripcion</label>
-            <input formControlName="description" type="text" name="description" id="description" placeholder="Informacion adicional del sitio"
-              class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              autocomplete="off">
-          </div>
+    <div>
+      <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descripcion</label>
+      <input formControlName="description" type="text" name="description" id="description"
+        placeholder="Informacion adicional del sitio"
+        class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        autocomplete="off">
+    </div>
 
-        <button type="submit"
-          class="text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
-          {{loading() ? "Guardando..." : "Guardar"}}
-        </button>
-        <button (click)="cancel()"  type="button" class="text-white ml-4 bg-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
-          Cancelar
-        </button>
-      </form>
+    <div class="flex items-center space-x-4">
+      <!-- Botón Guardar -->
+      <button type="submit"
+        class="text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 inline-flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          class="me-2 icon icon-tabler icons-tabler-outline icon-tabler-device-floppy">
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" />
+          <path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+          <path d="M14 4l0 4l-6 0l0 -4" />
+        </svg>
+        {{loading() ? "Guardando..." : "Guardar"}}
+      </button>
+    
+      <!-- Botón Cancelar -->
+      <button (click)="cancel()" type="button"
+        class="text-white bg-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800 inline-flex items-center">
+        Cancelar
+      </button>
+    </div>
+  </form>
 </section>

@@ -7,5 +7,15 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes, withComponentInputBinding()), provideFirebaseApp(() => initializeApp({ "projectId": "ng-task-18-6b5e9", "appId": "1:226831158468:web:b45d98fe338a0522cccd91", "storageBucket": "ng-task-18-6b5e9.firebasestorage.app", "apiKey": "AIzaSyAUpeiA57Am3M5DGgs8UTf_EMlyYrghHh0", "authDomain": "ng-task-18-6b5e9.firebaseapp.com", "messagingSenderId": "226831158468" })), provideAuth(() => getAuth()), provideFirestore(() => getFirestore())]
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }), 
+    provideRouter(routes, withComponentInputBinding()), 
+    provideFirebaseApp(() => initializeApp({ 
+      "projectId": "ng-task-18-6b5e9", 
+      "appId": "1:226831158468:web:b45d98fe338a0522cccd91", 
+      "storageBucket": "ng-task-18-6b5e9.firebasestorage.app", 
+      "apiKey": "AIzaSyAUpeiA57Am3M5DGgs8UTf_EMlyYrghHh0", 
+      "authDomain": "ng-task-18-6b5e9.firebaseapp.com", 
+      "messagingSenderId": "226831158468" })), 
+      provideAuth(() => getAuth()), provideFirestore(() => getFirestore())]
 };

@@ -50,12 +50,12 @@ export default class TaskFormComponent {
       const id = this.idSite();
       if (id) {
         await this._taskService.update(id, task);
-        toast.success('Tarea actualizada correctamente');
+        toast.success('Sitio actualizado correctamente');
         this._router.navigateByUrl('/tasks')
       }
       else {
         await this._taskService.create(task);
-        toast.success('Tarea creada correctamente');
+        toast.success('Sitio guardado correctamente');
         this.form.reset();
         this._router.navigateByUrl('/tasks')
       }

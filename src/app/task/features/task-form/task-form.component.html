@@ -6,13 +6,9 @@
         class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         placeholder="Titulo de la pagina" autocomplete="off">
     </div>
-    <!--@if(isRequired('email')) {
+       @if(isRequired('title')) {
           <small class="text-red-400">Este campo es requerido</small>
         }
-
-        @if(hasEmailError()) {
-          <small class="text-red-400">El correo debe de ser valido</small>
-        }-->
 
 
     <div>
@@ -21,9 +17,12 @@
         class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         autocomplete="off">
     </div>
-    <!--@if(isRequired('password')) {
-          <small class="text-red-400">Este campo es requerido</small>
-        }-->
+    @if(isRequired('urlSite')) {
+      <small class="text-red-400">Este campo es requerido</small>
+    }
+    @if(hasUrlError()) {
+      <small class="text-red-400">Formato de URL incorrecto</small>
+    }
 
     <div>
       <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Descripcion</label>
@@ -32,6 +31,9 @@
         class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         autocomplete="off">
     </div>
+    @if(isRequired('description')) {
+      <small class="text-red-400">Este campo es requerido</small>
+    }
 
     <div class="flex items-center space-x-4">
       <!-- Botón Guardar -->

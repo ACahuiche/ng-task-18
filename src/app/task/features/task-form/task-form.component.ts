@@ -3,6 +3,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Task, TaskCreate, TaskService } from '../../data-access/task.service';
 import { toast } from 'ngx-sonner';
 import { Router } from '@angular/router';
+import { hasUrlError, isRequiredToSave } from '../../../auth/utils/validators';
 
 @Component({
   selector: 'app-task-form',
@@ -30,13 +31,25 @@ export default class TaskFormComponent {
     });
   }
 
+  isRequired(field: 'title' | 'urlSite' | 'description') {
+    return isRequiredToSave(field, this.form)
+  }
+
+  hasUrlError() {
+    return hasUrlError(this.form);
+  }
+
   form = this._formBuilder.group({
     title: this._formBuilder.control('', Validators.required),
-    urlSite: this._formBuilder.control('', Validators.required),
+    urlSite: this._formBuilder.control('', [
+      Validators.required,
+      Validators.pattern(/^(https?:\/\/)?([\w\-]+\.)+[\w\-]+(\/[\w\-./?%&=]*)?$/i)
+    ]),
     description: this._formBuilder.control('', Validators.required)
   });
 
   async submit() {
+    if (this.form.invalid) return;
     try {
       this.loading.set(true)
       const {title, urlSite, description} = this.form.value;

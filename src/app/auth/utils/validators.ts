@@ -12,6 +12,12 @@ export const hasEmailError = (form: FormGroup) => {
     return control && control.touched && control.hasError('email');
 }
 
+export const hasUrlError = (form: FormGroup) => {
+    const control = form.get('urlSite');
+  
+    return control && control.touched && control.hasError('pattern');
+}
+
 export const confirmedPassword = (form: FormGroup) => {
     const password = form.get('password');
     const confirmPassword = form.get('confirmPassword');
@@ -23,4 +29,10 @@ export const validateMinLenght = (form: FormGroup) => {
     const control = form.get('password');
 
     return control && control.touched && control.hasError('minlength');
+}
+
+export const isRequiredToSave = (field: 'title' | 'urlSite' | 'description', form: FormGroup) => {
+    const control = form.get(field);
+
+    return control && control.touched && control.hasError('required')
 }

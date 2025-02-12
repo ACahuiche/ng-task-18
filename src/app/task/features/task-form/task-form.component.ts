@@ -31,14 +31,6 @@ export default class TaskFormComponent {
     });
   }
 
-  isRequired(field: 'title' | 'urlSite' | 'description') {
-    return isRequiredToSave(field, this.form)
-  }
-
-  hasUrlError() {
-    return hasUrlError(this.form);
-  }
-
   form = this._formBuilder.group({
     title: this._formBuilder.control('', Validators.required),
     urlSite: this._formBuilder.control('', [
@@ -47,6 +39,14 @@ export default class TaskFormComponent {
     ]),
     description: this._formBuilder.control('', Validators.required)
   });
+
+  isRequired(field: 'title' | 'urlSite' | 'description') {
+    return isRequiredToSave(field, this.form)
+  }
+
+  hasUrlError() {
+    return hasUrlError(this.form);
+  }
 
   async submit() {
     if (this.form.invalid) return;

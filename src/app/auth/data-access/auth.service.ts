@@ -3,7 +3,8 @@ import { Auth,
   createUserWithEmailAndPassword, 
   signInWithEmailAndPassword, 
   signInWithPopup,
-  GoogleAuthProvider
+  GoogleAuthProvider,
+  RecaptchaVerifier
 } from '@angular/fire/auth';
 
 export interface User {
@@ -18,20 +19,55 @@ export class AuthService {
 
   private _auth = inject(Auth);
 
-  signup(user: User) {
-    return createUserWithEmailAndPassword(this._auth, user.email, user.password);
+  async signup(user: User) {
+    try {
+      const recaptchaVerifier = new RecaptchaVerifier(this._auth, 'recaptcha-container', {
+        size: 'invisible'
+      });
+
+      await recaptchaVerifier.verify();
+
+      return await createUserWithEmailAndPassword(this._auth, user.email, user.password);
+    } catch (error) {
+      console.error("Error en el registro:", error);
+      throw error;
+    }
   }
 
-  signIn(user: User) {
-    return signInWithEmailAndPassword(this._auth, user.email, user.password);
+  async signIn(user: User) {
+    try {
+      const recaptchaVerifier = new RecaptchaVerifier(this._auth, 'recaptcha-container', {
+        size: 'invisible'
+      });
+
+      // Verificar reCAPTCHA antes de hacer login
+      await recaptchaVerifier.verify();
+
+      return await signInWithEmailAndPassword(this._auth, user.email, user.password);
+    } catch (error) {
+      console.error("Error en autenticación:", error);
+      throw error;
+    }
   }
 
-  signInWithGoogle() {
-    const provider = new GoogleAuthProvider();
+  async signInWithGoogle() {
+    try {
+      // Inicializar reCAPTCHA antes del login
+      const recaptchaVerifier = new RecaptchaVerifier(this._auth, 'recaptcha-container', {
+        size: 'invisible'
+      });
 
-    //Forzar que te permita elegir con que cuenta de google vamos a loguearnos
-    provider.setCustomParameters({prompt: 'select_account'});
+      // Verificar el reCAPTCHA antes de iniciar sesión
+      await recaptchaVerifier.verify();
 
-    return signInWithPopup(this._auth, provider);
+      // Iniciar sesión con Google
+      const provider = new GoogleAuthProvider();
+      provider.setCustomParameters({ prompt: 'select_account' });
+
+      return await signInWithPopup(this._auth, provider);
+    } catch (error) {
+      console.error("Error en autenticación con Google:", error);
+      throw error;
+    }
   }
 }

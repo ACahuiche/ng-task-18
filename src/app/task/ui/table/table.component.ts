@@ -22,7 +22,8 @@ export class TableComponent {
     const term = this.searchTerm().toLowerCase().trim();
     return this.tasks().filter(task => 
       task.title.toLowerCase().includes(term) || 
-      task.description.toLowerCase().includes(term)
+      task.description.toLowerCase().includes(term) ||
+      task.urlSite.toLowerCase().includes(term)
     );
   });
 

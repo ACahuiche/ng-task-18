@@ -13,7 +13,7 @@ export interface Task{
 
 export type TaskCreate = Omit<Task, 'id'>;
 
-const PATH: string = 'tasks';
+const PATH = 'tasks';
 
 @Injectable()
 export class TaskService {

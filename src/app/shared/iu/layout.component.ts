@@ -28,8 +28,6 @@ import { AuthStateService } from "../data-access/auth-state.service";
 
 export default class LayoutComponent {
 
-  constructor() { }
-
   private authState = inject(AuthStateService);
   private router = inject(Router);
 

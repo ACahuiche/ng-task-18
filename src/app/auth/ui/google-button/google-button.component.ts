@@ -10,6 +10,6 @@ import { Component, Input, output } from '@angular/core';
 export class GoogleButtonComponent {
 
   @Input() tituloBoton = '';
-  onClick = output<void>();
+  accionBoton = output<void>();
   
 }

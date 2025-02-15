@@ -3,7 +3,7 @@ import { CanActivateFn, Router } from '@angular/router';
 import { AuthStateService } from '../shared/data-access/auth-state.service';
 import { map } from 'rxjs';
 
-export const privateGuard: CanActivateFn = (route, state) => {
+export const privateGuard: CanActivateFn = () => {
   const router = inject(Router);
   const authState = inject(AuthStateService);
 
@@ -19,7 +19,7 @@ export const privateGuard: CanActivateFn = (route, state) => {
   );
 };
 
-export const publicGuard: CanActivateFn = (route, state) => {
+export const publicGuard: CanActivateFn = () => {
   const router = inject(Router);
   const authState = inject(AuthStateService);
 

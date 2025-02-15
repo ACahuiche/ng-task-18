@@ -35,7 +35,7 @@ export default class TaskFormComponent {
     title: this._formBuilder.control('', Validators.required),
     urlSite: this._formBuilder.control('', [
       Validators.required,
-      Validators.pattern(/^(https?:\/\/)[\w.-]+(?:\.[\w.-]+)+(?:\/[\w-.\w?%&=]*)?$/i)
+      Validators.pattern(/^(https?:\/\/)?([\w\-]+\.)+[\w\-]+(\/[\w\-./?%&=]*)?$/i)
     ]),
     description: this._formBuilder.control('', Validators.required)
   });

@@ -6,6 +6,7 @@ import { confirmedPassword, hasEmailError, isRequired } from '../../utils/valida
 import { toast } from 'ngx-sonner';
 import { GoogleButtonComponent } from '../../ui/google-button/google-button.component';
 import { FooterComponent } from '../../../partials/footer/footer.component';
+import { ErrorlogsService, ErrorLog } from '../../../core/errorlogs.service';
 
 export interface formSignIn {
   email: FormControl<string | null>;
@@ -16,6 +17,7 @@ export interface formSignIn {
   selector: 'app-sign-in',
   standalone: true,
   imports: [ReactiveFormsModule, RouterLink, GoogleButtonComponent, FooterComponent],
+  providers: [AuthService, ErrorlogsService],
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.css'
 })
@@ -23,6 +25,14 @@ export default class SignInComponent {
   private _formBuilder = inject(FormBuilder);
   private _authService = inject(AuthService);
   private _router = inject(Router);
+  private _errorLogService = inject(ErrorlogsService);
+
+  errorLog: ErrorLog = {
+    timestamp: new Date(),
+    element: 'sign-in',
+    type: 'component',
+    errorMessage: ''
+  };
 
   isRequired(field: 'email' | 'password') {
     return isRequired(field, this.form)
@@ -59,6 +69,23 @@ export default class SignInComponent {
       }
     }
     catch(error) {
+      if(error instanceof Error){
+        this.errorLog = {
+          timestamp: new Date(),
+          element: 'sign-in: email',
+          type: 'component',
+          errorMessage: error.message
+        }
+      }
+      else {
+        this.errorLog = {
+          timestamp: new Date(),
+          element: 'sign-in: email',
+          type: 'component',
+          errorMessage: 'Error desconocido'
+        }
+      }
+      this._errorLogService.save(this.errorLog);
       toast.error('Datos incorrectos');
     }
   }
@@ -70,6 +97,23 @@ export default class SignInComponent {
       this._router.navigate(['/tasks']);
     }
     catch(error) {
+      if(error instanceof Error) {
+        this.errorLog = {
+          timestamp: new Date(),
+          element: 'sign-in: GoogleAccount',
+          type: 'component',
+          errorMessage: error.message
+        }
+      }
+      else{
+        this.errorLog = {
+          timestamp: new Date(),
+          element: 'sign-in: GoogleAccount',
+          type: 'component',
+          errorMessage: 'Error desconocido'
+        }
+      }
+      this._errorLogService.save(this.errorLog);
       toast.error('Datos incorrectos');
     }
   }

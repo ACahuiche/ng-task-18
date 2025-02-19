@@ -36,9 +36,12 @@
           {{task.title}}
         </td>
         <td class="px-6 py-4">
-          <a href="{{task.urlSite}}" target="_blank" class="text-blue-600 hover:underline">
-           {{task.urlSite | truncate:40 }}
-          </a>
+          <div class="flex items-center">
+            <img [src]="getFavicon(task.urlSite)" alt="Favicon" class="w-6 h-6 mr-2">
+            <a href="{{task.urlSite}}" target="_blank" class="text-blue-600 hover:underline">
+              {{task.urlSite | truncate:30 }}
+            </a>
+          </div>
         </td>
         <td class="px-6 py-4">
           {{task.description}}

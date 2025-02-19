@@ -27,6 +27,14 @@ export class TableComponent {
     );
   });
 
+  getFavicon(url: string): string {
+    try {
+      return `https://www.google.com/s2/favicons?sz=64&domain=${new URL(url).hostname}`;
+    } catch (e) {
+      return ''; // En caso de que la URL sea inválida
+    }
+  }
+
   deleteSite(id:string) {
     this._taskService.delete(id);
   }

@@ -10,9 +10,6 @@
     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
       <tr>
         <th scope="col" class="px-6 py-3 text-center">
-          ID
-        </th>
-        <th scope="col" class="px-6 py-3 text-center">
           Titulo
         </th>
         <th scope="col" class="px-6 py-3 text-center">
@@ -30,16 +27,13 @@
       @for(task of filteredTasks(); track task.id){
       <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-center">
         <td class="px-6 py-4">
-          {{task.id}}
-        </td>
-        <td class="px-6 py-4">
           {{task.title}}
         </td>
         <td class="px-6 py-4">
           <div class="flex items-center">
             <img [src]="getFavicon(task.urlSite)" alt="Favicon" class="w-6 h-6 mr-2">
             <a href="{{task.urlSite}}" target="_blank" class="text-blue-600 hover:underline">
-              {{task.urlSite | truncate:30 }}
+              {{task.urlSite | truncate:40 }}
             </a>
           </div>
         </td>

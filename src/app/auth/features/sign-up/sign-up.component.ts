@@ -5,7 +5,6 @@ import { AuthService } from '../../data-access/auth.service';
 import { toast } from 'ngx-sonner';
 import { Router, RouterLink } from '@angular/router';
 import { GoogleButtonComponent } from '../../ui/google-button/google-button.component';
-import { FooterComponent } from '../../../partials/footer/footer.component';
 
 export interface formSignUp {
   email: FormControl<string | null>;
@@ -16,7 +15,7 @@ export interface formSignUp {
 @Component({
   selector: 'app-sign-up',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, GoogleButtonComponent, FooterComponent],
+  imports: [ReactiveFormsModule, RouterLink, GoogleButtonComponent],
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.css'
 })
@@ -25,6 +24,20 @@ export default class SignUpComponent {
   private _formBuilder = inject(FormBuilder);
   private _authService = inject(AuthService);
   private _router = inject(Router);
+
+  form = this._formBuilder.group<formSignUp>({
+    email: this._formBuilder.control('', [
+      Validators.required,
+      Validators.email
+    ]),
+    password: this._formBuilder.control('', [
+      Validators.required,
+      Validators.minLength(6)
+    ]),
+    confirmPassword: this._formBuilder.control('', [
+      Validators.required
+    ])
+  });
 
   isRequired(field: 'email' | 'password' | 'confirmPassword') {
     return isRequired(field, this.form)
@@ -41,20 +54,6 @@ export default class SignUpComponent {
   confirmedPassword() {
     return confirmedPassword(this.form);
   }
-
-  form = this._formBuilder.group<formSignUp>({
-    email: this._formBuilder.control('', [
-      Validators.required,
-      Validators.email
-    ]),
-    password: this._formBuilder.control('', [
-      Validators.required,
-      Validators.minLength(6)
-    ]),
-    confirmPassword: this._formBuilder.control('', [
-      Validators.required
-    ])
-  });
 
   async submit() {
     if (this.form.invalid) return;

@@ -40,7 +40,6 @@ export class AuthService {
         size: 'invisible'
       });
 
-      // Verificar reCAPTCHA antes de hacer login
       await recaptchaVerifier.verify();
 
       return await signInWithEmailAndPassword(this._auth, user.email, user.password);
@@ -52,15 +51,13 @@ export class AuthService {
 
   async signInWithGoogle() {
     try {
-      // Inicializar reCAPTCHA antes del login
+      
       const recaptchaVerifier = new RecaptchaVerifier(this._auth, 'recaptcha-container', {
         size: 'invisible'
       });
 
-      // Verificar el reCAPTCHA antes de iniciar sesión
       await recaptchaVerifier.verify();
 
-      // Iniciar sesión con Google
       const provider = new GoogleAuthProvider();
       provider.setCustomParameters({ prompt: 'select_account' });
 

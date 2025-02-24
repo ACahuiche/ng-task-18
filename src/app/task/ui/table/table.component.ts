@@ -27,23 +27,29 @@ export class TableComponent {
     );
   });
 
-  getFavicon(url: string): string {
-    try {
-      return `https://www.google.com/s2/favicons?sz=64&domain=${new URL(url).hostname}`;
-    } catch (e) {
-      return ''; // En caso de que la URL sea inválida
-    }
-  }
-
   deleteSite(id:string) {
     this._taskService.delete(id);
   }
 
+  shareSite(name: string, urlSite: string, description: string) {
+    name = encodeURIComponent(name);
+    urlSite = encodeURIComponent(urlSite);
+    description = encodeURIComponent(description);
+
+    const url = `${window.location.hostname}/tasks/share/${name}/${urlSite}/${description}`;
+
+    this.clipboardProcess(url,"Link para compartir generado", "Error al generar link para compartir");
+  }
+
   copyToClipboard(url: string): void {
+    this.clipboardProcess(url, "URL copiada al portapapeles", "Error al copiar la URL: ");
+  }
+
+  clipboardProcess(url: string, msgSuccess: string, msgFailed: string): void {
     navigator.clipboard.writeText(url).then(() => {
-      toast.error('URL copiada al portapapeles');
+      toast.info(msgSuccess);
     }).catch((error) => {
-      console.error('Error al copiar la URL:', error);
+      toast.error(msgFailed, error);
     });
   }
 

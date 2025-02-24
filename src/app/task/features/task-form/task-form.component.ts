@@ -21,12 +21,23 @@ export default class TaskFormComponent {
   loading = signal(false);
 
   idSite = input.required<string>();
+  nameSite = input.required<string>();
+  urlSite = input.required<string>();
+  descriptionSite = input.required<string>();
 
   constructor() {
     effect(() => {
       const id = this.idSite();
+      const name = this.nameSite();
+      const url = this.urlSite();
+      const description = this.descriptionSite();
+      
       if (id) {
         this.getSite(id);
+      }
+
+      if (name && url && description) {
+        this.infoShared(name, url, description);
       }
     });
   }
@@ -95,4 +106,17 @@ export default class TaskFormComponent {
 
     this.form.patchValue(site);
   }
+
+  infoShared(name:string, url:string, description:string){
+    name = decodeURIComponent(name);
+    url = decodeURIComponent(url);
+    description = decodeURIComponent(description);
+    
+    this.form.patchValue({
+      title: name,
+      urlSite: url,
+      description: description
+    });
+  }
+    
 }

@@ -1,7 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Firestore, collection, addDoc, collectionData, doc, getDoc, updateDoc, deleteDoc, query, where } from '@angular/fire/firestore';
-import { Observable, catchError, tap, throwError } from 'rxjs';
+import { Observable, catchError, map, tap, throwError } from 'rxjs';
 import { AuthStateService } from '../../shared/data-access/auth-state.service';
 
 export interface Task{
@@ -9,9 +9,10 @@ export interface Task{
   title: string;
   urlSite: string;
   description: string;
+  favicon: string;
 }
 
-export type TaskCreate = Omit<Task, 'id'>;
+export type TaskCreate = Omit<Task, 'id' | 'favicon'>;
 
 const PATH = 'tasks';
 
@@ -29,6 +30,12 @@ export class TaskService {
 
   getSites = toSignal(
     (collectionData(this._query, {idField: 'id'}) as Observable<Task[]>).pipe(
+      map(sites =>
+        sites.map(site => ({
+          ...site,
+          favicon: `https://www.google.com/s2/favicons?sz=64&domain=${site.urlSite}`
+        }))
+      ),
       tap(() =>{
         this.loading.set(false);
       }),

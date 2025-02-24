@@ -12,5 +12,9 @@ export default [
     {
         path: 'edit/:idSite',
         loadComponent: () => import('./task-form/task-form.component')
+    },
+    {
+        path: 'share/:nameSite/:urlSite/:descriptionSite',
+        loadComponent: () => import('./task-form/task-form.component')
     }
 ] as Routes

@@ -36,7 +36,7 @@ export class TableComponent {
     urlSite = encodeURIComponent(urlSite);
     description = encodeURIComponent(description);
 
-    const url = `${window.location.hostname}/tasks/share/${name}/${urlSite}/${description}`;
+    const url = `https://${window.location.hostname}/tasks/share/${name}/${urlSite}/${description}`;
 
     this.clipboardProcess(url,"Link para compartir generado", "Error al generar link para compartir");
   }

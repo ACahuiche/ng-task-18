@@ -4,19 +4,24 @@ import { Task, TaskCreate, TaskService } from '../../data-access/task.service';
 import { toast } from 'ngx-sonner';
 import { Router } from '@angular/router';
 import { hasUrlError, isRequiredToSave } from '../../../auth/utils/validators';
+import { Category, CategoryService } from '../../../category/data-access/category.service';
+import { Observable } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-task-form',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [CommonModule,ReactiveFormsModule],
   providers: [TaskService],
   templateUrl: './task-form.component.html',
   styleUrl: './task-form.component.css'
 })
-export default class TaskFormComponent {
+export default class TaskFormComponent{
   private _formBuilder = inject(FormBuilder);
   private _taskService = inject(TaskService);
+  private _categoryService = inject(CategoryService);
   private _router = inject(Router);
+  categoriesList$: Observable<Category[]>;
 
   loading = signal(false);
 
@@ -26,6 +31,7 @@ export default class TaskFormComponent {
   descriptionSite = input.required<string>();
 
   constructor() {
+    this.categoriesList$ = this._categoryService.getCategoriesList();
     effect(() => {
       const id = this.idSite();
       const name = this.nameSite();
@@ -48,7 +54,8 @@ export default class TaskFormComponent {
       Validators.required,
       Validators.pattern(/^(https?:\/\/)?([\w\-]+\.)+[\w\-]+(\/[\w\-./?%&=]*)?$/i)
     ]),
-    description: this._formBuilder.control('', Validators.required)
+    description: this._formBuilder.control('', Validators.required),
+    category: this._formBuilder.control('')
   });
 
   isRequired(field: 'title' | 'urlSite' | 'description') {
@@ -63,12 +70,13 @@ export default class TaskFormComponent {
     if (this.form.invalid) return;
     try {
       this.loading.set(true)
-      const {title, urlSite, description} = this.form.value;
+      const {title, urlSite, description, category} = this.form.value;
 
       const task: TaskCreate = {
         title: title || '',
         urlSite: urlSite || '',
-        description: description || ''
+        description: description || '',
+        category: category || ''
       };
 
       const id = this.idSite();

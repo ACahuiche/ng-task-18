@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TableComponent } from '../../ui/table/table.component';
 import { TaskService } from '../../data-access/task.service';
+import { CategoryService } from '../../../category/data-access/category.service';
 
 @Component({
   selector: 'app-task-list',
@@ -13,5 +14,5 @@ import { TaskService } from '../../data-access/task.service';
 })
 export default class TaskListComponent {
   tasksService = inject(TaskService);
-
+  categoryService = inject(CategoryService)
 }

@@ -65,7 +65,7 @@ export class CategoryService {
       query(
         this._categoryCollection,
         where('__name__', '==', id),
-        where('idOwner', '==', this._authState.currentUser?.uid)
+        where('idOwner', '==', userId)
       )
     );
 
@@ -77,7 +77,7 @@ export class CategoryService {
     const categoryDoc = categorySnap.docs[0];
     const oldName = categoryDoc.data()['name'];
 
-    await updateDoc(docRef, {...category, lastUpdate: Timestamp.now(),idOwner: this._authState.currentUser?.uid})
+    await updateDoc(docRef, {...category, lastUpdate: Timestamp.now(),idOwner: userId})
 
     const linksQuery = query(
       this._linksCollection,

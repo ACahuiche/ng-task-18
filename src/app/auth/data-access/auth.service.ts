@@ -42,7 +42,8 @@ export class AuthService {
 
       await recaptchaVerifier.verify();
 
-      return await signInWithEmailAndPassword(this._auth, user.email, user.password);
+      return await signInWithEmailAndPassword(this._auth, user.email, user.password); 
+      
     } catch (error) {
       console.error("Error en autenticación:", error);
       throw error;

@@ -1,7 +1,9 @@
 import { Routes } from "@angular/router";
+import { mainNewInfoGuard } from "../../core/main-new-info.guard";
 
 export default [
     {
+        canActivate: [mainNewInfoGuard],
         path: '',
         loadComponent: () => import('./task-list/task-list.component')
     },

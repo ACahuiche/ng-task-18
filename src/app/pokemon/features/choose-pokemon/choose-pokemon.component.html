@@ -1,0 +1,23 @@
+<div class="relative overflow-x-visible">
+  <div class="flex gap-4 mb-4 items-center">
+    <!-- Dropdown para elegir pokemon -->
+    <select (change)="onPokemonSelected($event)">
+      <option value="" disabled selected>Elige un Pokémon</option>
+      @for(pokemon of pokemons; track pokemon.name){
+      <option [value]="pokemon.url">
+        {{ pokemon.name }}
+      </option>
+      }
+    </select>
+  </div>
+
+  <div class="flex gap-4 mb-4 items-center">
+    @if(selectedPokemonUrl) {
+      <h2>Detalles del Pokémon</h2>
+      <p><strong>Nombre:</strong> {{ selectedPokemonDetails.name }}</p><br>
+      <p><strong>Altura:</strong> {{ selectedPokemonDetails.height }}</p><br>
+      <p><strong>Peso:</strong> {{ selectedPokemonDetails.weight }}</p><br>
+      <img [src]="selectedPokemonDetails.sprites.other.showdown.front_default" alt="Imagen del Pokémon" width="100" height="100">
+    }
+  </div>
+</div>

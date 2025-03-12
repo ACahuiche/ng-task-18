@@ -5,8 +5,10 @@ import { Router, RouterLink } from '@angular/router';
 import { confirmedPassword, hasEmailError, isRequired } from '../../utils/validators';
 import { toast } from 'ngx-sonner';
 import { GoogleButtonComponent } from '../../ui/google-button/google-button.component';
-import { FooterComponent } from '../../../partials/footer/footer.component';
 import { ErrorlogsService, ErrorLog } from '../../../core/errorlogs.service';
+import { FixErrorsIaService } from '../../../error-manager-ia/fix-errors-ia.service';
+import { BaseContext } from '../../../core/base-context';
+import { Timestamp } from '@angular/fire/firestore';
 
 export interface formSignIn {
   email: FormControl<string | null>;
@@ -16,23 +18,27 @@ export interface formSignIn {
 @Component({
   selector: 'app-sign-in',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, GoogleButtonComponent, FooterComponent],
+  imports: [ReactiveFormsModule, RouterLink, GoogleButtonComponent],
   providers: [AuthService, ErrorlogsService],
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.css'
 })
-export default class SignInComponent {
+export default class SignInComponent extends BaseContext{
   private _formBuilder = inject(FormBuilder);
   private _authService = inject(AuthService);
   private _router = inject(Router);
+  private _Gemini = inject(FixErrorsIaService);
   private _errorLogService = inject(ErrorlogsService);
 
   errorLog: ErrorLog = {
-    timestamp: new Date(),
-    element: 'sign-in',
-    type: 'component',
+    timestamp: Timestamp.now(),
+    element: '',
     errorMessage: ''
   };
+
+  constructor() {
+    super();
+  }
 
   isRequired(field: 'email' | 'password') {
     return isRequired(field, this.form)
@@ -44,6 +50,14 @@ export default class SignInComponent {
 
   confirmedPassword() {
     return confirmedPassword(this.form);
+  }
+
+  clearErrorLogObject() {
+    this.errorLog = {
+      timestamp: Timestamp.now(),
+      element: '',
+      errorMessage: ''
+    };
   }
 
   form = this._formBuilder.group<formSignIn>({
@@ -68,25 +82,28 @@ export default class SignInComponent {
         this._router.navigate(['/tasks']);
       }
     }
-    catch(error) {
+    catch (error) {
       if(error instanceof Error){
+        const context = this.getContext(error);
+        const errSolution = await this._Gemini.EvaluateError(error.message);
+
         this.errorLog = {
-          timestamp: new Date(),
-          element: 'sign-in: email',
-          type: 'component',
-          errorMessage: error.message
+          timestamp: Timestamp.now(),
+          element: context.className,
+          errorMessage: error.message,
+          AISolution: errSolution
         }
       }
-      else {
+      else{
+        const context = this.getContext();
         this.errorLog = {
-          timestamp: new Date(),
-          element: 'sign-in: email',
-          type: 'component',
+          timestamp: Timestamp.now(),
+          element: context.className,
           errorMessage: 'Error desconocido'
         }
       }
       this._errorLogService.save(this.errorLog);
-      toast.error('Datos incorrectos');
+      console.log('Error identificado, verificar con el admin el log de erorres')
     }
   }
 
@@ -96,25 +113,28 @@ export default class SignInComponent {
       toast.success('Acceso correcto');
       this._router.navigate(['/tasks']);
     }
-    catch(error) {
-      if(error instanceof Error) {
+    catch (error) {
+      if(error instanceof Error){
+        const context = this.getContext(error);
+        const errSolution = await this._Gemini.EvaluateError(error.message);
+
         this.errorLog = {
-          timestamp: new Date(),
-          element: 'sign-in: GoogleAccount',
-          type: 'component',
-          errorMessage: error.message
+          timestamp: Timestamp.now(),
+          element: context.className,
+          errorMessage: error.message,
+          AISolution: errSolution
         }
       }
       else{
+        const context = this.getContext();
         this.errorLog = {
-          timestamp: new Date(),
-          element: 'sign-in: GoogleAccount',
-          type: 'component',
+          timestamp: Timestamp.now(),
+          element: context.className,
           errorMessage: 'Error desconocido'
         }
       }
       this._errorLogService.save(this.errorLog);
-      toast.error('Datos incorrectos');
+      console.log('Error identificado, verificar con el admin el log de erorres')
     }
   }
 }

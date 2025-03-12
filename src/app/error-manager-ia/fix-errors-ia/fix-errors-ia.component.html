@@ -1,0 +1,31 @@
+<section>
+  <h1>Prueba de logger de errores con IA</h1>
+  <button (click)="eventoError()">Lanzar error</button>
+</section>
+<hr>
+<section>
+  <h1>Pruebas de informacion de usuario logueado</h1>
+  <div
+    class="w-full max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+    <div class="flex items-center justify-between mb-4">
+      <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Tus datos</h5>
+    </div>
+    <div class="flow-root">
+
+      <div class="flex items-center">
+        <div class="shrink-0">
+          <img class="w-8 h-8 rounded-full" [src]="urlPhoto" alt="Neil image">
+        </div>
+        <div class="flex-1 min-w-0 ms-4">
+          <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+            {{userName}}
+          </p>
+          <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+            {{userEmail}}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<hr>

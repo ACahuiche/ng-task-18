@@ -5,6 +5,7 @@ import { toast } from 'ngx-sonner';
 import { TruncatePipe } from '../../../core/truncate.pipe';
 import { FormsModule } from '@angular/forms';
 import { Category, CategoryService } from '../../../category/data-access/category.service';
+import { ThumbnailService } from '../../../core/thumbnail.service';
 
 @Component({
   selector: 'app-table',
@@ -20,12 +21,22 @@ export class TableComponent {
   searchTerm = signal<string>('');
   selectedCategory = signal<string>('');
   categories: Category[] = [];
+  showPreview: boolean;
   
 
-  constructor(private _categoryService: CategoryService){
+  constructor(private _categoryService: CategoryService, private thumbnailService: ThumbnailService){
     this._categoryService.getCategoriesList().subscribe((categories) => {
       this.categories = categories;
     })
+    this.showPreview = false;
+  }
+
+  changePreview(){
+    this.showPreview = !this.showPreview;
+  }
+
+  getThumbnail(url: string): string {
+    return this.thumbnailService.getThumbnail(url);
   }
 
   @HostListener('window:scroll', [])

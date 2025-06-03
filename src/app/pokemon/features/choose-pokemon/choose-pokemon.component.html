@@ -11,6 +11,7 @@
     </select>
   </div>
 
+  @if(mostrarBase) {
   <div class="flex gap-4 mb-4 items-center">
     @if(selectedPokemonUrl) {
       <h2>Detalles del Pokémon</h2>
@@ -20,4 +21,31 @@
       <img [src]="selectedPokemonDetails.sprites.other.showdown.front_default" alt="Imagen del Pokémon" width="100" height="100">
     }
   </div>
+}
+
+@if(mostrarPrimeraEvo){
+  <div class="flex gap-4 mb-4 items-center">
+    @if(selectedPokemonUrl) {
+      <h2>Siguiente Evolucion</h2>
+      <p><strong>Nombre:</strong> {{ cadenaDeEvoluciones.firstEvolution.name }}</p><br>
+      <p><strong>Evoluciona a nivel:</strong> {{ cadenaDeEvoluciones.firstEvolution.level }}</p><br>
+      <img [src]="cadenaDeEvoluciones.firstEvolution.sprite" alt="Imagen del Pokémon" width="100" height="100">
+    }
+  </div>
+}
+
+@if(mostrarSegundaEvo){
+    <div class="flex gap-4 mb-4 items-center">
+      @if(selectedPokemonUrl) {
+        <h2>Siguiente Evolucion</h2>
+        <p><strong>Nombre:</strong> {{ cadenaDeEvoluciones.secondEvolution.name }}</p><br>
+        <p><strong>Evoluciona a nivel:</strong> {{ cadenaDeEvoluciones.secondEvolution.level }}</p><br>
+        <img [src]="cadenaDeEvoluciones.secondEvolution.sprite" alt="Imagen del Pokémon" width="100" height="100">
+      }
+    </div>
+  }
+
+  @if(mostrarBase) {
+    <a routerLink="/tasks" class="focus:outline-none text-white bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:ring-purple-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">Guardar</a>
+  }
 </div>

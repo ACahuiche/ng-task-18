@@ -1,12 +1,13 @@
-<div class="relative overflow-x-visible">
-  <div class="flex gap-4 mb-4">
-    <button (click)="changePreview()" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5  py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">{{ showPreview ? 'Ocultar' : 'Mostrar' }}</button>
-    <!-- Input de búsqueda -->
-    <input type="text" [(ngModel)]="searchTerm" placeholder="Buscar por título o descripción..."
-      class="w-full p-2 border border-gray-300 rounded-md" />
+<div class="w-full">
+  <div class="flex flex-wrap gap-4 mb-4 items-center justify-between">
+    <button (click)="changePreview()" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
+      {{ showPreview ? 'Ocultar' : 'Mostrar' }}
+    </button>
 
-    <!-- Dropdown para categorías -->
-    <select [(ngModel)]="selectedCategory" class="p-2 border border-gray-300 rounded-md">
+    <input type="text" [(ngModel)]="searchTerm" placeholder="Buscar por título o descripción..."
+      class="flex-1 min-w-[200px] p-2 border border-gray-300 rounded-md" />
+
+    <select [(ngModel)]="selectedCategory" class="p-2 border border-gray-300 rounded-md min-w-[200px]">
       <option value="">Todas las categorías</option>
       @for(category of categories; track category) {
       <option [value]="category.name">{{ category.name }}</option>
@@ -14,143 +15,102 @@
     </select>
   </div>
 
-  <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-      <tr>
-        <th scope="col" class="px-6 py-3 text-center">
-          Titulo
-        </th>
-        <th scope="col" class="px-6 py-3 text-center">
-          URL
-        </th>
-        @if(showPreview){
-          <th scope="col" class="px-6 py-3 text-center">
-            Preview
-          </th>
-        }
-        <th scope="col" class="px-6 py-3 text-center">
-          Descripcion
-        </th>
-        <th scope="col" class="px-6 py-3 text-center">
-          Categoria
-        </th>
-        <th scope="col" class="px-6 py-3 text-center">
-          Acciones
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      @for(task of filteredTasks(); track task.id){
-      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-center">
-        <td class="px-6 py-4">
-          {{task.title}}
-        </td>
-        <td class="px-6 py-4">
-          <div class="flex items-center">
-            <img [src]="task.favicon" alt="Favicon" class="w-6 h-6 mr-2">
-            <a href="{{task.urlSite}}" target="_blank" class="text-blue-600 hover:underline">
-              {{task.urlSite | truncate:40 }}
-            </a>
-          </div>
-
-        </td>
-        @if(showPreview){
-          <td>
-            <img 
-            [src]="getThumbnail(task.urlSite)"
-            alt="Preview of {{ task.urlSite }}"
-            width="100"
-            height="10" >
+  <div class="overflow-x-auto">
+    <table class="min-w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+          <th scope="col" class="px-6 py-3 text-center">Titulo</th>
+          <th scope="col" class="px-6 py-3 text-center">URL</th>
+          @if(showPreview){
+            <th scope="col" class="px-6 py-3 text-center">Preview</th>
+          }
+          <th scope="col" class="px-6 py-3 text-center">Descripcion</th>
+          <th scope="col" class="px-6 py-3 text-center">Categoria</th>
+          <th scope="col" class="px-6 py-3 text-center">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(task of filteredTasks(); track task.id){
+        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-center">
+          <td class="px-6 py-4">{{task.title}}</td>
+          <td class="px-6 py-4">
+            <div class="flex items-center">
+              <img [src]="task.favicon" alt="Favicon" class="w-6 h-6 mr-2">
+              <a href="{{task.urlSite}}" target="_blank" class="text-blue-600 hover:underline">
+                {{task.urlSite | truncate:20 }}
+              </a>
+            </div>
           </td>
+          @if(showPreview){
+            <td class="px-6 py-4">
+              <img [src]="getThumbnail(task.urlSite)" alt="Preview of {{ task.urlSite }}" width="100">
+            </td>
+          }
+          <td class="px-6 py-4">{{task.description | truncate:20}}</td>
+          <td class="px-6 py-4">{{task.category || 'Sin Categoria'}}</td>
+          <td class="px-6 py-4">
+            <div class="flex items-center justify-center space-x-4">
+              <a routerLink="/tasks/edit/{{task.id}}" class="focus:outline-none" title="Editar">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="icon icon-tabler icons-tabler-outline icon-tabler-edit">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
+                  <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
+                  <path d="M16 5l3 3" />
+                </svg>
+              </a>
+              <button (click)="copyToClipboard(task.urlSite)" title="Copiar URL" class="focus:outline-none">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="icon icon-tabler icons-tabler-outline icon-tabler-clipboard-copy">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2" />
+                  <path d="M9 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z" />
+                  <path d="M9 12h6" />
+                  <path d="M9 16h6" />
+                </svg>
+              </button>
+              <button (click)="shareSite(task.title, task.urlSite, task.description)" class="focus:outline-none" title="Compartir">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="icon icon-tabler icons-tabler-outline icon-tabler-share">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M6 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                  <path d="M18 6m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                  <path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                  <path d="M8.7 10.7l6.6 -3.4" />
+                  <path d="M8.7 13.3l6.6 3.4" />
+                </svg>
+              </button>
+              <button (click)="deleteSite(task.id)" class="focus:outline-none" title="Eliminar">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="icon icon-tabler icons-tabler-outline icon-tabler-trash-x">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M4 7h16" />
+                  <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
+                  <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                  <path d="M10 12l4 4m0 -4l-4 4" />
+                </svg>
+              </button>
+            </div>
+          </td>
+        </tr>
         }
-        
-        <td class="px-6 py-4">
-          {{task.description}}
-        </td>
-        @if(task.category){
-        <td class="px-6 py-4">
-          {{task.category}}
-        </td>
+        @empty{
+        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+          <td colspan="6" class="px-6 py-4 text-center">No hay sitios guardados todavía</td>
+        </tr>
         }
-        @else {
-        <td class="px-6 py-4">
-          Sin Categoria
-        </td>
-        }
-        <td class="px-6 py-4 flex items-center justify-center space-x-4">
-
-          <!-- Botón Editar -->
-          <a routerLink="/tasks/edit/{{task.id}}" class="focus:outline-none" title="Editar">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-              class="icon icon-tabler icons-tabler-outline icon-tabler-edit">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
-              <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
-              <path d="M16 5l3 3" />
-            </svg>
-          </a>
-
-
-          <button (click)="copyToClipboard(task.urlSite)" title="Copiar URL" class="focus:outline-none">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-              class="icon icon-tabler icons-tabler-outline icon-tabler-clipboard-copy">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M9 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2h-2" />
-              <path d="M9 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z" />
-              <path d="M9 12h6" />
-              <path d="M9 16h6" />
-            </svg>
-          </button>
-
-          <!-- Boton compartir-->
-          <button (click)="shareSite(task.title, task.urlSite, task.description)" class="focus:outline-none"
-            title="Compartir">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-              class="icon icon-tabler icons-tabler-outline icon-tabler-share">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M6 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
-              <path d="M18 6m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
-              <path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
-              <path d="M8.7 10.7l6.6 -3.4" />
-              <path d="M8.7 13.3l6.6 3.4" />
-            </svg>
-          </button>
-
-          <!-- Botón Borrar -->
-          <button (click)="deleteSite(task.id)" class="focus:outline-none" title="Eliminar">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-              class="icon icon-tabler icons-tabler-outline icon-tabler-trash-x">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M4 7h16" />
-              <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12" />
-              <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-              <path d="M10 12l4 4m0 -4l-4 4" />
-            </svg>
-          </button>
-        </td>
-      </tr>
-      }
-      @empty{
-      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-        <td colspan="5" class="px-6 py-4 text-center">
-          No hay sitios guardados todavia
-        </td>
-
-      </tr>
-      }
-    </tbody>
-  </table>
+      </tbody>
+    </table>
+  </div>
 
   @if(showScrollButton){
-  <button (click)="scrollToTop()" class="scroll-to-top-btn">
-    <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-      transform="rotate(0 0 0)">
-      <path d="M11.9961 3.99902L11.9961 20.0004M6 9.99502L11.9998 3.99902L18 9.99502" stroke="#ffffff"
-        stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+  <button (click)="scrollToTop()" class="scroll-to-top-btn-right">
+    <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M11.9961 3.99902L11.9961 20.0004M6 9.99502L11.9998 3.99902L18 9.99502" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
     </svg>
   </button>
   }

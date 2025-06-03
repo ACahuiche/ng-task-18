@@ -31,11 +31,10 @@ export const routes: Routes = [
         path: 'errors',
         loadComponent: () => import('./error-manager-ia/fix-errors-ia/fix-errors-ia.component')
     },
-    /*{
-        canActivate: [ privateGuard, adminOptionGuard ],
+    {
         path: 'pokemons',
         loadComponent: () => import('./pokemon/features/choose-pokemon/choose-pokemon.component')
-    },*/
+    },
     {
         path: '**',
         redirectTo: '/tasks'

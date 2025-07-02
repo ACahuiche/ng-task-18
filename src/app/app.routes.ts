@@ -4,6 +4,10 @@ import { newInfoGuard } from './core/new-info.guard';
 import { adminOptionGuard } from './core/admin-options.guard';
 
 export const routes: Routes = [
+    {
+        path: '',
+        loadComponent: () => import('./landing/home/home.component')
+    },
     { 
         canActivateChild: [ publicGuard ],
         path: 'auth',
@@ -37,6 +41,6 @@ export const routes: Routes = [
     },
     {
         path: '**',
-        redirectTo: '/tasks'
+        redirectTo: '/'
     }
 ];
